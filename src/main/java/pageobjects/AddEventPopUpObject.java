@@ -1,12 +1,10 @@
 package pageobjects;
 
-import static com.codeborne.selenide.Condition.hasClass;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$$;
-
 import org.openqa.selenium.By;
+
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class AddEventPopUpObject {
 
@@ -28,22 +26,23 @@ public class AddEventPopUpObject {
 		$(".multiselect-container").$$(By.tagName("label")).filterBy(text(category)).get(0).click();
 	}
 
-	public void selectStartDate(String date) {
-		$("#start").click();
-		$("#ui-datepicker-div").shouldBe(visible);
-		$(By.className("ui-datepicker-calendar")).$(By.xpath(String.format("//a[contains(text, '%s')]", date)));
-		//$(".ui-datepicker-calendar").find(text("25")).click();
+	public void selectCurrDateAsAStart() {
+		selectDate();
 	}
 
-	public void selectEndtDate(String date) {
-		$("#end").click();
+	public void selectCurrDateAsAnEnd() {
+		selectDate();
+	}
+
+	private void selectDate() {
+		$("#start").click();
 		$("#ui-datepicker-div").shouldBe(visible);
-		$(By.className("ui-datepicker-calendar")).$(By.xpath(String.format("//a[contains(text, '%s')]", date)));
-		//$(".ui-datepicker-calendar").find(text("25")).click();
+		$(".ui-state-highlight").click();
+		$(".ui-datepicker-close").click();
 	}
 
 	public void clickAddEvent() {
-		$$(By.tagName("button")).findBy(text("Done")).click();
+		$(".SinglePage__button--addEvent").click();
 	}
 
 	public void setDescription(String description) {

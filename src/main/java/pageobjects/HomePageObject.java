@@ -1,21 +1,22 @@
 package pageobjects;
 
-import static com.codeborne.selenide.Condition.enabled;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.title;
+import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
+import tests.AbstractTest;
+
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
 import static org.junit.Assert.assertEquals;
 
-import org.openqa.selenium.By;
+public class HomePageObject extends AbstractTest {
 
-public class HomePageObject {
+	public static final String ADD_EVENT_BTN_SEL = ".navbar-right .btn-add-event";
 
-	public void openHomePage() {
-		open("http://172.30.148.9:8080/WhereToGo/#");
-		//open("http://localhost:8888/WhereToGo/");
+	public HomePageObject openHomePage() {
+//		open("http://172.30.148.9:8080/WhereToGo/#");
+		open("http://localhost:8080/WhereToGo/");
 		assertEquals("The page title should equal Events", "Events!", title());
+		return page(HomePageObject.class);
 	}
 
 	public void validateUserInfo(String userinfo) {
@@ -23,21 +24,31 @@ public class HomePageObject {
 	}
 
 	public void validateLogoutIsVisible() {
-		$(By.className("logout")).should(text("Logout")).shouldBe(visible);
+		$(By.className("logout")).shouldHave(text("Logout")).shouldBe(visible);
 
 	}
 
 	public boolean validateAddEventButtonDisabled() {
-		$(By.className("navbar-right")).$(By.className("btn-add-event")).should(visible);
-		return $(By.className("navbar-right")).$(By.className("btn-add-event")).getCssValue("cursor").equals("not-allowed");
+		getAddEventBtn().shouldBe(visible);
+		return getAddEventBtn().getCssValue("cursor").equals("not-allowed");
 	}
 
 	public void validateAddEventButtonEnabled() {
-		$(By.className("navbar-right")).$(By.className("btn-add-event")).should(enabled);
+		getAddEventBtn().shouldBe(enabled);
 	}
 
 	public void clickAddEventButton() {
-		$(By.className("navbar-right")).$(By.className("btn-add-event")).click();
+		getAddEventBtn().click();
+	}
+	
+	public void validateEventIsOnPage(String event) {
+		$$(".events-list > li a")
+				.filter(text(event))
+				.shouldHaveSize(1);
 	}
 
+	private SelenideElement getAddEventBtn() {
+		return $(ADD_EVENT_BTN_SEL);
+	}
+	
 }

@@ -1,26 +1,31 @@
 package tests;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import pageobjects.AddEventPopUpObject;
 import pageobjects.HomePageObject;
 import pageobjects.LoginPageObject;
 
-public class FirstTest {
+import static org.junit.Assert.assertTrue;
+
+//TODO: remove it when random user will be used for each test
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class AddEventTest {
 
 	private AddEventPopUpObject addEventPopUpObject = new AddEventPopUpObject();
 	private LoginPageObject loginPageObject = new LoginPageObject();
 	private HomePageObject homePageObject = new HomePageObject();
 
 	@Test
-	public void checkAddEventButtonForPublicUser() {
+	public void addEventButtonShouldBeDisabledForUnauthorizedUser() {
 		homePageObject.openHomePage();
-		homePageObject.validateAddEventButtonDisabled();
+		assertTrue(homePageObject.validateAddEventButtonDisabled());
 	}
 
 	@Test
-	public void checkAddEventButtonForRootUser() {
+	public void addEventButtonShouldBeEnabledForAuthorizedUser() {
 		homePageObject.openHomePage();
-		homePageObject.validateAddEventButtonDisabled();
 
 		loginPageObject.loginAs("root@gmail.com", "root");
 
@@ -30,17 +35,21 @@ public class FirstTest {
 	}
 
 	@Test
-	public void createNewEvent() {
+	public void newEventShouldBeCreatedIfFieldsAreFilledOutWithCorrectData() {
+		final String eventName = "Some Cool Event!";
+
 		homePageObject.openHomePage();
-		loginPageObject.loginAs("root@gmail.com", "root");
+		//TODO: remove it when random user will be used for each test
+		//loginPageObject.loginAs("root@gmail.com", "root");
 		homePageObject.clickAddEventButton();
 		addEventPopUpObject.checkAddEventPageVisible();
-		addEventPopUpObject.setEventTitle("Some Cool Event!");
+		addEventPopUpObject.setEventTitle(eventName);
 		addEventPopUpObject.choseEventCategory("Pub");
-		addEventPopUpObject.selectStartDate("26");
-		addEventPopUpObject.selectEndtDate("27");
+		addEventPopUpObject.selectCurrDateAsAStart();
+		addEventPopUpObject.selectCurrDateAsAnEnd();
 		addEventPopUpObject.setDescription("the best event ever");
 		addEventPopUpObject.clickAddEvent();
+		homePageObject.validateEventIsOnPage(eventName);
 	}
 
 }

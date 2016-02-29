@@ -1,16 +1,17 @@
 package pageobjects;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$$;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class LoginPageObject {
 
 	private void setEmail(String email) {
-		$(By.id("userEmail")).setValue(email);
+		$("#userEmail")
+				.shouldBe(visible)
+				.setValue(email);
 	}
 
 	private void setPassword(String password) {
@@ -18,7 +19,8 @@ public class LoginPageObject {
 	}
 
 	private void openLoginForm() {
-		$(".navbar-right").$(".dropdown-toggle").click();
+		$(".navbar-right .dropdown-toggle").click();
+		$(".dropdown").shouldHave(cssClass("open"));
 	}
 
 	private boolean validateLoginFormIsVisible() {
