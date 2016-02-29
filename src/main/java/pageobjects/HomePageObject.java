@@ -2,13 +2,12 @@ package pageobjects;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import tests.AbstractTest;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.Assert.assertEquals;
 
-public class HomePageObject extends AbstractTest {
+public class HomePageObject {
 
 	public static final String ADD_EVENT_BTN_SEL = ".navbar-right .btn-add-event";
 
@@ -40,7 +39,7 @@ public class HomePageObject extends AbstractTest {
 	public void clickAddEventButton() {
 		getAddEventBtn().click();
 	}
-	
+
 	public void validateEventIsOnPage(String event) {
 		$$(".events-list > li a")
 				.filter(text(event))
@@ -50,5 +49,5 @@ public class HomePageObject extends AbstractTest {
 	private SelenideElement getAddEventBtn() {
 		return $(ADD_EVENT_BTN_SEL);
 	}
-	
+
 }
