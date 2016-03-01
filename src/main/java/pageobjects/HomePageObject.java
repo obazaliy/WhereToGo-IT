@@ -1,7 +1,11 @@
 package pageobjects;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import lib.Category;
 import org.openqa.selenium.By;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -11,7 +15,7 @@ public class HomePageObject {
 
 	public static final String ADD_EVENT_BTN_SEL = ".navbar-right .btn-add-event";
 
-	public HomePageObject openHomePage() {
+	public static HomePageObject openHomePage() {
 //		open("http://172.30.148.9:8080/WhereToGo/#");
 		open("http://localhost:8080/WhereToGo/");
 		assertEquals("The page title should equal Events", "Events!", title());
@@ -41,13 +45,41 @@ public class HomePageObject {
 	}
 
 	public void validateEventIsOnPage(String event) {
-		$$(".events-list > li a")
+		getAllEvents()
 				.filter(text(event))
 				.shouldHaveSize(1);
+	}
+
+	private ElementsCollection getAllEvents() {
+		return $$(".events-list > li").filterBy(visible);
+	}
+
+	public void validateAllEventsHaveCategory(Category category) {
+		List<SelenideElement> eventsWithCategory = getEvents(category);
+
+		getAllEvents().shouldHaveSize(eventsWithCategory.size());
+	}
+
+	public void validateAllEventsHaveCategory(Category... categories) {
+		int eventsNumber = 0;
+		for (Category category : categories) {
+			eventsNumber += getEvents(category).size();
+		}
+
+		getAllEvents().shouldHaveSize(eventsNumber);
+	}
+
+	private List<SelenideElement> getEvents(Category category) {
+		return $$(".events-list .event-description > li")
+				.filterBy(visible)
+				.filterBy(text(category.name()));
+	}
+
+	public FiltersPanelPageObject getFiltersPanel() {
+		return page(FiltersPanelPageObject.class);
 	}
 
 	private SelenideElement getAddEventBtn() {
 		return $(ADD_EVENT_BTN_SEL);
 	}
-
 }
