@@ -1,9 +1,12 @@
 package tests;
 
+import com.codeborne.selenide.WebDriverRunner;
 import lib.Category;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import pageobjects.HomePageObject;
 import pageobjects.LoginPageObject;
 
@@ -36,4 +39,12 @@ public class FilterByCategoryTest {
 				.selectFilter(Category.TRIP, Category.CONCERT)
 				.validateAllEventsHaveCategory(Category.TRIP, Category.CONCERT);
 	}
+
+	@Test
+	public void checkFilteringByCategory () {
+		System.setProperty("webdriver.chrome.driver", "/home/oshvets/chromedriver");
+		WebDriverRunner.setWebDriver(new ChromeDriver());
+		HomePageObject.openHomePage();
+	}
+
 }

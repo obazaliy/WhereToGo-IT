@@ -7,6 +7,8 @@ import pageobjects.AddEventPopUpObject;
 import pageobjects.HomePageObject;
 import pageobjects.LoginPageObject;
 
+import java.lang.*;
+
 import static org.junit.Assert.assertTrue;
 
 //TODO: remove it when random user will be used for each test

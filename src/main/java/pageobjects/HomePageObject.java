@@ -17,9 +17,13 @@ public class HomePageObject {
 
 	public static HomePageObject openHomePage() {
 //		open("http://172.30.148.9:8080/WhereToGo/#");
-		open("http://localhost:8080/WhereToGo/");
+		open("http://localhost:8888/WhereToGo/");
 		assertEquals("The page title should equal Events", "Events!", title());
 		return page(HomePageObject.class);
+	}
+
+	public void validateClearFiltersButtonVisible () {
+		$(By.className("filters")).should(text("Clear filters")).shouldBe(visible);
 	}
 
 	public void validateUserInfo(String userinfo) {
