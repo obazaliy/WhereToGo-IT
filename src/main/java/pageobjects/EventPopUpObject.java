@@ -1,12 +1,16 @@
 package pageobjects;
 
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class AddEventPopUpObject {
+public class EventPopUpObject {
+
+	private String currencyDropdown = "#currencies";
+
 
 	public void setEventTitle(String titleName) {
 		$(By.className("SinglePage__title ")).setValue(titleName);
@@ -47,6 +51,24 @@ public class AddEventPopUpObject {
 
 	public void setDescription(String description) {
 		$("#description").setValue(description);
+	}
+
+	public void setLocation(String location) {
+		$("#location").setValue(location);
+	}
+
+	public void setCost(double cost) {
+		$("#cost").val(String.valueOf(cost));
+	}
+
+
+	public void setCurrency(String currency) {
+		$(currencyDropdown).selectOption(currency);
+	}
+
+	public void checkEventPopupNotVisible() {
+		$(".SinglePage__inputForm").shouldNotBe(visible);
+
 	}
 
 

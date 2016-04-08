@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pageobjects.FiltersPanelPageObject;
 import pageobjects.HomePageObject;
 import pageobjects.LoginPageObject;
 
@@ -18,6 +19,7 @@ public class FilterByCategoryTest {
 	@Test
 	public void whenFilterIsSelectedEventsFromChosenCategoryAreShown() {
 		HomePageObject pageObject = HomePageObject.openHomePage();
+		FiltersPanelPageObject filtersPanelPageObject = new FiltersPanelPageObject();
 
 		//TODO: remove it when random user will be used for each test
 		loginPageObject.loginAs("root@gmail.com", "root");
@@ -45,6 +47,10 @@ public class FilterByCategoryTest {
 		System.setProperty("webdriver.chrome.driver", "/home/oshvets/chromedriver");
 		WebDriverRunner.setWebDriver(new ChromeDriver());
 		HomePageObject.openHomePage();
+		loginPageObject.loginAs("root@gmail.com" , "root");
+
+
+
 	}
 
 }

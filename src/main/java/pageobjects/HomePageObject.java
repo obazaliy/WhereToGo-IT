@@ -6,6 +6,7 @@ import lib.Category;
 import org.openqa.selenium.By;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -26,8 +27,9 @@ public class HomePageObject {
 		$(By.className("filters")).should(text("Clear filters")).shouldBe(visible);
 	}
 
-	public void validateUserInfo(String userinfo) {
-		$(By.className("userInfo")).shouldBe(text(userinfo));
+	public void validateAndOpenUserInfo(String userinfo) {
+		$(By.className("userInfo")).shouldBe(text(userinfo)).click();
+
 	}
 
 	public void validateLogoutIsVisible() {
@@ -85,5 +87,9 @@ public class HomePageObject {
 
 	private SelenideElement getAddEventBtn() {
 		return $(ADD_EVENT_BTN_SEL);
+	}
+
+	public void openEventPopUp (String eventName) {
+				$$("li[class*=small_event]").findBy(text(eventName)).click();
 	}
 }
